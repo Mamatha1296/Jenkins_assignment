@@ -16,18 +16,11 @@ node {
            
             // Move WAR file to Tomcat's webapps directory with sudo
             sh '''
-                ssh -o StrictHostKeyChecking=no ec2-user@172.31.2.39 "sudo mv /tmp/MyWebApp.war /apache-tomcat-9.0.96/webapps/" || { echo "SSH failed"; exit 1; }
+                ssh -o StrictHostKeyChecking=no ec2-user@172.31.2.39 "sudo mv /tmp/sprint-tomcat.war /tomcat/webapps/" || { echo "SSH failed"; exit 1; }
             '''
             echo "Deployment to Tomcat completed"
         }
-    } catch (Exception e) {
-        echo "Error occurred: ${e.message}"
-        currentBuild.result = 'FAILURE'
-    } finally {
-        if (currentBuild.result == 'SUCCESS') {
-            echo "Deployment successful!"
-        } else {
-            echo "Deployment failed."
+    } 
         }
-    }
-}
+    
+
