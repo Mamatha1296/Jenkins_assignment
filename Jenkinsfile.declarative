@@ -1,0 +1,19 @@
+pipeline {
+    agent any  
+    stages {
+        stage('Checkout') {  
+            steps {
+            git branch: 'main', url:’https://github.com/Mamatha1296/Jenkins_assignment.git’ 
+            }
+        }
+        stage('Build') {  
+            steps {
+                sh 'mvn -f java-project /pom.xml clean package'  // Executes Maven to clean and package the application
+            }
+        }
+        stage('Deploy to Tomcat') {  
+            steps {
+                sh 'scp -o StrictHostKeyChecking=no java-project/target/ java-project.war ec2-user@ 172.31.2.39:/home/tomcat/webapps/'  // Copies the WAR file to the Tomcat server
+            }
+        }
+    }
